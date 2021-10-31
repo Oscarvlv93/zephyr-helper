@@ -1,7 +1,34 @@
 const BASE_URL = 'https://api.zephyrscale.smartbear.com/v2/';
-var fs = require('fs');
 
-const { doRequest } = require("zephyr-cypress/utils/request-handler");
+const { doRequest } = require("./request-handler");
+
+async function getTestCases(key, jwt) {
+
+    var data = {
+        url: BASE_URL + `testcases?projectKey=${key}&maxResults=${100}`,
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`
+        }
+    };
+
+    return await doRequest(data)
+}
+
+async function getTestCase(key, jwt) {
+
+    var data = {
+        url: BASE_URL + `testcases/${key}`,
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`
+        }
+    };
+
+    return await doRequest(data)
+}
 
 async function getFolders(key, jwt) {
 
@@ -184,9 +211,9 @@ async function createTestExecution(key, jwt, testdata) {
             }
         })
     };
+ 
 
-
-    return await doRequest(data);
+    return await doRequest(data) ;
 
 }
 
@@ -201,5 +228,7 @@ module.exports = {
     //uploadResult, 
     createTestExecution,
     getStatuses,
-    getEnvironments
+    getEnvironments,
+    getTestCases,
+    getTestCase
 }

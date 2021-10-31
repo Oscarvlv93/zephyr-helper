@@ -3,6 +3,7 @@ const path = require('path');
 
 let parent = __dirname.split('node_modules')[0].replace(/\\/g, '/');
 let resultDir = 'cypress/test-results/cucumber-json/'
+let whatev = 'cypress/integration/dashboard/dashboard-cl.feature'
 
 /*function resolvePath(path){
     let results = fs.readdirSync(parent).filter(s => s.match(path));
@@ -43,3 +44,4 @@ module.exports = { getFiles, getConfig }
 
 
 
+//Quizas crear los casos no tageados no sea tan dificil
