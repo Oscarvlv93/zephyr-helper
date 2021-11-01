@@ -5,8 +5,8 @@ var fileUtils = require('./utils/filesUtils')
 
 let zephyr = fileUtils.getConfig();
 
-let api_key = zephyr.zephyr == undefined ? '' : zephyr.zephyr.api_key
-let projectKey = zephyr.zephyr == undefined ? '' : zephyr.zephyr.projectData.key
+let api_key = zephyr.zephyr == undefined ? ''      : zephyr.zephyr.api_key
+let projectKey = zephyr.zephyr == undefined ? ''   : zephyr.zephyr.projectData.key
 let testCycleKey = zephyr.zephyr == undefined ? '' : zephyr.zephyr.testCycleData.key
 
 let files = fileUtils.getFiles();
@@ -21,12 +21,10 @@ for (const key in files) {
     untagged[key]['folder'] = files[key][0].name
 }
 
-untagged.forEach(s => {
-    let a = s.folder.split(' ')
-    let subfolder = a[a.length - 1];
-    let folder = s.folder.split(subfolder)[0]
 
-})
+fileUtils.folderSplit(untagged).then(res => console.log({
+  result:res
+}))
 
 
 async function uploadResult(req) {
@@ -36,9 +34,9 @@ async function uploadResult(req) {
         args['projectDataKey'] = Object.assign(projectKey)
         args['api_key'] = Object.assign(api_key)
         args['testCycleKey'] = Object.assign(testCycleKey)
-        
+
     } else {
-       
+
 
         args['projectDataKey'] = Object.assign(req.projectDataKey)
         args['api_key'] = Object.assign(req.api_key)
@@ -58,7 +56,6 @@ async function uploadResult(req) {
         return values
     });
 }
-
 
 
 async function getStatuses(statusType) {
@@ -83,15 +80,19 @@ async function getFolders(projectKey) {
     return methods.getFolders(projectKey || zephyr.projectData.key, api_key)
 }
 
+async function Cue() {
+    return '♥'
+}
+
 /*getFolders().then(s=>{
     console.log(s)
 })*/
 
-module.exports = { 
-    uploadResult, 
-    getStatuses, 
-    createTestCycle, 
-    returnUntagged, 
-    returnTests, 
-    getFolders 
+module.exports = {
+    uploadResult,
+    getStatuses,
+    createTestCycle,
+    returnUntagged,
+    returnTests,
+    getFolders
 }

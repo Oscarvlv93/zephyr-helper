@@ -5,22 +5,6 @@ let parent = __dirname.split('node_modules')[0].replace(/\\/g, '/');
 let resultDir = 'cypress/test-results/cucumber-json/'
 let whatev = 'cypress/integration/dashboard/dashboard-cl.feature'
 
-/*function resolvePath(path){
-    let results = fs.readdirSync(parent).filter(s => s.match(path));
-    let paths = [];
-    for (let i = 0 ; i < results.length ; i++){
-        paths[`${results[i]}`] = parent + results[i]
-        try{
-            paths[`${results[i]}`] = paths[`${results[i]}`] + "/" +  fs.readdirSync(paths[`${results[i]}`])
-
-        } catch(error){
-            console.log("no existe")
-        }
-    }
-    console.log(paths)
-}*/
-
-
 function getFiles() {
 
     let paths = fs.readdirSync(parent + resultDir)
@@ -40,7 +24,22 @@ function getConfig() {
 
 
 
-module.exports = { getFiles, getConfig }
+async function folderSplit (val) {
+
+  let results = await val.map(forichSplit)
+  return results
+}
+
+
+function forichSplit(val)
+{
+  let firstSplit = val.folder.split(' ')
+  let subfolder = firstSplit[firstSplit.length - 1];
+  let folder = val.folder.split(subfolder)[0]
+  return folder
+}
+
+module.exports = { getFiles, getConfig, folderSplit }
 
 
 
