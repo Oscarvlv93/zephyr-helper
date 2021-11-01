@@ -30,10 +30,10 @@ async function getTestCase(key, jwt) {
     return await doRequest(data)
 }
 
-async function getFolders(key, jwt) {
+async function getFolders(folderType, key, jwt) {
 
     var data = {
-        url: BASE_URL + `folders?projectKey=${key}&maxResults=${100}`,
+        url: BASE_URL + `folders?projectKey=${key}&maxResults=${100}&folderType=${folderType}`,
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -180,7 +180,7 @@ async function uploadResult(key, jwt) {
 
 }
 
-async function createTestExecution(key, jwt, testdata) {
+async function createTestExecution(testdata, key, jwt) {
 
     var data = {
         url: BASE_URL + `testexecutions`,
@@ -204,8 +204,8 @@ async function createTestExecution(key, jwt, testdata) {
             "environmentName": "INT",
             "actualEndDate": new Date(),
             "executionTime": testdata.duration,
-            "executedById": "5c07ddc49c82801cd350c84e",
-            "assignedToId": "5c07ddc49c82801cd350c84e",
+            "executedById": testdata.userId,
+            "assignedToId": testdata.userId,
             "comment": testdata.comment || testdata.status,
             "customFields": {
             }
