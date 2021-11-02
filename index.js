@@ -33,6 +33,7 @@ untagged.forEach(s => {
     folders.parents.push(folder)
 })
 
+<<<<<<< HEAD
 // fileUtils.folderSplit(untagged).then(res => console.log({
 //     result:res
 //   }))
@@ -47,6 +48,19 @@ async function orderingData()
   //// return ordenringData
 }
 orderingData()
+=======
+fileUtils.folderSplit(untagged).then(res => console.log({
+    result:res
+  }))
+
+/*function filterFolders(){
+
+    getFolders('TEST_CASE').then(s=>{})
+}
+filterFolders();*/
+
+
+>>>>>>> 8d4100181c1ee8097930f41fb08631408b905c25
 
 async function uploadResult(req) {
     let args = {}
@@ -106,6 +120,7 @@ async function getFolders(folderType) {
     console.log(s)
 })*/
 
+<<<<<<< HEAD
 module.exports = {
     uploadResult,
     getStatuses,
@@ -113,4 +128,13 @@ module.exports = {
     returnUntagged,
     returnTests,
     getFolders
+=======
+module.exports = { 
+    uploadResult, 
+    getStatuses, 
+    createTestCycle, 
+    returnUntagged, 
+    returnTests, 
+    getFolders 
+>>>>>>> 8d4100181c1ee8097930f41fb08631408b905c25
 }
