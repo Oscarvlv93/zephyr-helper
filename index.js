@@ -3,16 +3,21 @@ var testresults = require('./utils/testCaseUtils')
 var fileUtils = require('./utils/filesUtils')
 
 
-let zephyr = fileUtils.getConfig();
+let config = fileUtils.getConfig();
 
-let api_key = zephyr.zephyr == undefined ? ''      : zephyr.zephyr.api_key
-let projectKey = zephyr.zephyr == undefined ? ''   : zephyr.zephyr.projectData.key
-let testCycleKey = zephyr.zephyr == undefined ? '' : zephyr.zephyr.testCycleData.key
+let api_key = config.zephyr == undefined ? '' : config.zephyr.api_key
+let projectKey = config.zephyr == undefined ? '' : config.zephyr.projectData.key
+let testCycleKey = config.zephyr == undefined ? '' : config.zephyr.testCycleData.key
+let userId = config.zephyr == undefined ? '' : config.zephyr.userId
 
 let files = fileUtils.getFiles();
 
 let tests = [];
 let untagged = [];
+let folders = {
+    parents: [],
+    childrens: ['Chile', 'Perú', 'Colombia']
+}
 
 for (const key in files) {
     tests[key] = testresults.getTestResults(files[key]).testData;
@@ -21,33 +26,83 @@ for (const key in files) {
     untagged[key]['folder'] = files[key][0].name
 }
 
+untagged.forEach(s => {
+    let a = s.folder.split(' ')
+    let subfolder = a[a.length - 1]
+    let folder = s.folder.split(subfolder)[0]
+    folders.parents.push(folder)
+})
 
-fileUtils.folderSplit(untagged).then(res => console.log({
-  result:res
-}))
+// fileUtils.folderSplit(untagged).then(res => console.log({
+//     result:res
+//   }))
 
+
+function newVaina (vaina) {
+  let values = vaina.values
+  let padres = []
+  let hijos = []
+  values.forEach(val => {
+    if(val.parentId === null){
+        padres.push(val)
+      }else{
+        hijos.push(val)
+      }
+  })
+  let order = ordenamiento(padres,hijos)
+  console.log(order);
+}
+
+
+function ordenamiento(padres,hijos)
+{
+  let objectOr = []
+  padres.forEach(padre => {
+    objectOr.push(padre)
+    hijos.forEach(hijo => {
+      if(hijo.parentId === padre.id)
+      {
+        if(objectOr[objectOr.length-1].child === undefined){
+          objectOr[objectOr.length-1].child = []
+          objectOr[objectOr.length-1].child.push(hijo)
+        }else{
+          objectOr[objectOr.length-1].child.push(hijo)
+        }
+      }
+    })
+  return objectOr})
+  return objectOr
+}
+
+async function eeeeeeeeeeeo()
+{
+  const eooo = await methods.getFolders('TEST_CASE', projectKey, api_key).then(res => { return res })
+  newVaina(eooo)
+}
+
+eeeeeeeeeeeo()
 
 async function uploadResult(req) {
-
     let args = {}
+
     if (!req) {
         args['projectDataKey'] = Object.assign(projectKey)
         args['api_key'] = Object.assign(api_key)
         args['testCycleKey'] = Object.assign(testCycleKey)
-
+        args['userId'] = Object.assign(userId)
     } else {
-
-
         args['projectDataKey'] = Object.assign(req.projectDataKey)
         args['api_key'] = Object.assign(req.api_key)
         args['testCycleKey'] = Object.assign(req.testCycleKey)
+        args['userId'] = Object.assign(req.userId)
     }
 
     let executions = []
     tests.forEach(feature => {
         feature.map(function (testcase, index, array) {
             testcase['testCycleKey'] = args.testCycleKey;
-            return executions.push(methods.createTestExecution(args.projectDataKey, args.api_key, testcase).then(res => {
+            testcase['userId'] = args.userId;
+            return executions.push(methods.createTestExecution(testcase, args.projectDataKey, args.api_key).then(res => {
                 return res;
             }))
         })
@@ -58,13 +113,14 @@ async function uploadResult(req) {
 }
 
 
+
 async function getStatuses(statusType) {
-    return methods.getStatuses(statusType || 'TEST_CASE', zephyr.projectData.key, api_key)
+    return methods.getStatuses(statusType || 'TEST_CASE', projectKey, api_key)
 }
 
 
 async function createTestCycle(req) {
-    return methods.createTestCycle(req, zephyr.projectData.key, api_key)
+    return methods.createTestCycle(req, projectKey, api_key)
 }
 
 async function returnUntagged() {
@@ -76,12 +132,8 @@ async function returnTests() {
 }
 
 
-async function getFolders(projectKey) {
-    return methods.getFolders(projectKey || zephyr.projectData.key, api_key)
-}
-
-async function Cue() {
-    return '♥'
+async function getFolders(folderType) {
+    return methods.getFolders(folderType, projectKey, api_key)
 }
 
 /*getFolders().then(s=>{
