@@ -1,6 +1,6 @@
 {
   "name": "zephyr-cypress",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,9 +9,7 @@
   "author": "Oscar Leal",
   "license": "ISC",
   "dependencies": {
+    "npm": "^8.1.2",
     "request": "^2.88.2"
-  },
-  "devDependencies": {
-    "adm-zip": "^0.5.9"
   }
 }
