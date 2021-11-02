@@ -181,7 +181,7 @@ async function uploadResult(key, jwt) {
 }
 
 async function createTestExecution(testdata, key, jwt) {
-
+    
     var data = {
         url: BASE_URL + `testexecutions`,
         method: 'POST',
@@ -212,7 +212,7 @@ async function createTestExecution(testdata, key, jwt) {
         })
     };
  
-
+    
     return await doRequest(data) ;
 
 }

@@ -14,42 +14,33 @@ let files = fileUtils.getFiles();
 
 let tests = [];
 let untagged = [];
-let folders = {
-    parents: [],
-    childrens: ['Chile', 'Perú', 'Colombia']
-}
 
 for (const key in files) {
     tests[key] = testresults.getTestResults(files[key]).testData;
     untagged[key] = []
-    untagged[key] = testresults.getTestResults(files[key]).untagged
     untagged[key]['folder'] = files[key][0].name
-}
-
-untagged.forEach(s => {
-    let a = s.folder.split(' ')
-    let subfolder = a[a.length - 1]
-    let folder = s.folder.split(subfolder)[0]
-    folders.parents.push(folder)
-})
-
-// fileUtils.folderSplit(untagged).then(res => console.log({
-//     result:res
-//   }))
-
-
-
-async function orderingData()
-{
-  const foldersUnordered = await methods.getFolders('TEST_CASE', projectKey, api_key).then(res => { return res })
-  const orderingData = await fileUtils.arrangeFolders(foldersUnordered)
-  console.log(orderingData)
-  //// return ordenringData
+    untagged[key]['tests'] = testresults.getTestResults(files[key]).untagged
 }
 
 
-orderingData()
+// untagged.map(function(feature, index, array){
+//     let splited = feature.folder.split(' ');
+//     let child = splited[splited.length - 1]
+//     let parent = splited.splice(0, splited.length - 1)
+//     let folder ;
+//     orderingData().then(res => {
+//         let filtered = res.filter(function(value){return value.name.includes(`${parent} BFF`)})
+//         console.log(child)
+//     })
+   
+    
+// })
 
+async function orderingData() {
+    const foldersUnordered = await methods.getFolders('TEST_CASE', projectKey, api_key).then(res => { return res })
+    const orderingData = await fileUtils.arrangeFolders(foldersUnordered)
+    return orderingData
+}
 
 
 async function uploadResult(req) {
@@ -110,11 +101,11 @@ async function getFolders(folderType) {
     console.log(s)
 })*/
 
-module.exports = { 
-    uploadResult, 
-    getStatuses, 
-    createTestCycle, 
-    returnUntagged, 
-    returnTests, 
-    getFolders 
+module.exports = {
+    uploadResult,
+    getStatuses,
+    createTestCycle,
+    returnUntagged,
+    returnTests,
+    getFolders
 }

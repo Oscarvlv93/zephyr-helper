@@ -20,19 +20,27 @@ function getTestResults(obj) {
 
 
         if (testData[k]['key'] != undefined) {
-            elements[k].steps.forEach(data => {
-                duration += data.result.duration
-                testData[k]['duration'] = Object.assign(duration / 1000000)
+            elements[k].steps.forEach(step => {
+                duration += step.result.duration
+                switch(step.result.status){
+                    case 'passed':
+                        testData[k]['name'] = step.name
+                        testData[k]['duration'] = Object.assign(duration / 1000000)
+                        testData[k]['comment'] = ''
+                        testData[k]['status'] = 'Pass'
+                        break
+                    case 'failed':
+                        testData[k]['status'] = 'Fail'
+                        testData[k]['name'] = step.name
+                        testData[k]['duration'] = Object.assign(duration / 1000000)
+                        testData[k]['comment'] = step.result.error_message
+                        break
+                    case 'skipped':
+                        
+                        break
+                }
+                
             })
-
-            if (elements[k].steps[elements[k].steps.length - 1].result.status == 'passed') {
-                testData[k]['status'] = Object.assign('Pass')
-                testData[k]['name'] = Object.assign(elements[k].steps[elements[k].steps.length - 1].name)
-            } else {
-                testData[k]['status'] = Object.assign('Fail')
-                testData[k]['comment'] = Object.assign(elements[k].steps[elements[k].steps.length - 1].result.error_message)
-                testData[k]['name'] = Object.assign(elements[k].steps[elements[k].steps.length - 1].name)
-            }
         } else {
             untagged[k] = {};
             untagged[k]['id'] = Object.assign(elements[k].id);
