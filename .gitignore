@@ -1,6 +1,4 @@
 node_modules
-<<<<<<< HEAD
-=======
 *.iml
 package-lock.json
 
@@ -72,4 +70,3 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
->>>>>>> 8d4100181c1ee8097930f41fb08631408b905c25
