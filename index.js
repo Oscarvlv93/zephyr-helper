@@ -38,49 +38,15 @@ untagged.forEach(s => {
 //   }))
 
 
-function newVaina (vaina) {
-  let values = vaina.values
-  let padres = []
-  let hijos = []
-  values.forEach(val => {
-    if(val.parentId === null){
-        padres.push(val)
-      }else{
-        hijos.push(val)
-      }
-  })
-  let order = ordenamiento(padres,hijos)
-  console.log(order);
-}
 
-
-function ordenamiento(padres,hijos)
+async function orderingData()
 {
-  let objectOr = []
-  padres.forEach(padre => {
-    objectOr.push(padre)
-    hijos.forEach(hijo => {
-      if(hijo.parentId === padre.id)
-      {
-        if(objectOr[objectOr.length-1].child === undefined){
-          objectOr[objectOr.length-1].child = []
-          objectOr[objectOr.length-1].child.push(hijo)
-        }else{
-          objectOr[objectOr.length-1].child.push(hijo)
-        }
-      }
-    })
-  return objectOr})
-  return objectOr
+  const foldersUnordered = await methods.getFolders('TEST_CASE', projectKey, api_key).then(res => { return res })
+  const orderingData = await fileUtils.arrangeFolders(foldersUnordered)
+  console.log(orderingData)
+  //// return ordenringData
 }
-
-async function eeeeeeeeeeeo()
-{
-  const eooo = await methods.getFolders('TEST_CASE', projectKey, api_key).then(res => { return res })
-  newVaina(eooo)
-}
-
-eeeeeeeeeeeo()
+orderingData()
 
 async function uploadResult(req) {
     let args = {}

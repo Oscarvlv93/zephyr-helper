@@ -17,6 +17,59 @@ function getFiles() {
 
 }
 
+async function arrangeFolders (data) {
+  if (data === undefined) {
+    return 'From arrangeFolders: data undefined'
+  }
+
+  if(data.length = 0){
+    return 'From arrangeFolders: data is empty'
+  }
+  
+  let values = data.values
+  let parent = []
+  let child = []
+  values.forEach(val => {
+    if(val.parentId === null){
+        parent.push(val)
+      }else{
+        child.push(val)
+      }
+  })
+  let order = ordering(parent)
+  return order
+}
+
+
+function ordering(parent,child)
+{ 
+  if(child === undefined){
+    return {
+      msg:"Form arrangeFolders: no children found",
+      data: parent
+    }
+  }
+  let objectOr = []
+  parent.forEach(parentSelect => {
+    objectOr.push(parentSelect)
+    child.forEach(childSelect => {
+      if(childSelect.parentId === parentSelect.id)
+      {
+        if(objectOr[objectOr.length-1].child === undefined){
+          objectOr[objectOr.length-1].child = []
+          objectOr[objectOr.length-1].child.push(childSelect)
+        }else{
+          objectOr[objectOr.length-1].child.push(childSelect)
+        }
+      }
+    })
+  return objectOr})
+  return objectOr
+}
+
+
+
+
 function getConfig() {
     let filePath = fs.readdirSync(parent).filter(s => s.match('cypress.json'))
     return JSON.parse(fs.readFileSync(parent + filePath))
@@ -39,7 +92,7 @@ function forichSplit(val)
   return folder
 }
 
-module.exports = { getFiles, getConfig, folderSplit }
+module.exports = { getFiles, getConfig, folderSplit, arrangeFolders }
 
 
 
