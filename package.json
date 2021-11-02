@@ -9,13 +9,7 @@
   "author": "Oscar Leal",
   "license": "ISC",
   "dependencies": {
-<<<<<<< HEAD
-    "npm": "^8.1.2",
-    "request": "^2.88.2"
-  }
-=======
     "request": "^2.88.2"
   },
   "devDependencies": {}
->>>>>>> 8d4100181c1ee8097930f41fb08631408b905c25
 }

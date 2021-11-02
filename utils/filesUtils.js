@@ -36,7 +36,7 @@ async function arrangeFolders (data) {
         child.push(val)
       }
   })
-  let order = ordering(parent)
+  let order = ordering(parent,child)
   return order
 }
 
