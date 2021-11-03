@@ -23,17 +23,44 @@ for (const key in files) {
 }
 
 
-// untagged.map(function(feature, index, array){
-//     let splited = feature.folder.split(' ');
-//     let child = splited[splited.length - 1]
-//     let parent = splited.splice(0, splited.length - 1)
-//     let folder ;
+async function idk(untagged) {
+    let zephyrfolders = await orderingData()
+
+    untagged.forEach(feature => {
+
+        let splited = feature.folder.split(' ');
+        let childFolder = splited[splited.length - 1]
+        let parent = splited.splice(0, splited.length - 1)
+
+        zephyrfolders.forEach(el => {
+            if (el.name.includes(`${parent} BFF`)) {
+                feature.folderId = el.child.filter(function (value) {
+                    return value.name.substr(0, 3).toUpperCase() == childFolder.substr(0, 3)
+                })[0].id
+            }
+        })
+
+        if (feature.folderId == undefined) {
+            console.log("no existe la carpeta")
+        } else {
+            console.log(feature)
+        }
+    })
+}
+
+idk(untagged)
+
+// untagged.forEach(feature => {
+
 //     orderingData().then(res => {
-//         let filtered = res.filter(function(value){return value.name.includes(`${parent} BFF`)})
-//         console.log(child)
+//         let splited = feature.folder.split(' ');
+//         let child = splited[splited.length - 1]
+//         let parent = splited.splice(0, splited.length - 1)
+//         let filteredFolder = res.filter(function (value) { return value.name.includes(`${parent} BFF`) })
+//         console.log(filteredFolder)
 //     })
-   
-    
+
+
 // })
 
 async function orderingData() {
@@ -41,6 +68,7 @@ async function orderingData() {
     const orderingData = await fileUtils.arrangeFolders(foldersUnordered)
     return orderingData
 }
+
 
 
 async function uploadResult(req) {
