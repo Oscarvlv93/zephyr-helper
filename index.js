@@ -23,16 +23,16 @@ for (const key in files) {
 }
 
 
-async function idk(untagged) {
+async function idk(untagged) { //aca dentro va el proceso completo de tagear el caso
     let zephyrfolders = await orderingData()
 
-    untagged.forEach(feature => {
+    untagged.forEach(feature => { //Por cada caso no taggeado
 
         let splited = feature.folder.split(' ');
         let childFolder = splited[splited.length - 1]
         let parent = splited.splice(0, splited.length - 1)
 
-        zephyrfolders.forEach(el => {
+        zephyrfolders.forEach(el => { //Obtengo el ID de la carpeta a la que pertenece
             if (el.name.includes(`${parent} BFF`)) {
                 feature.folderId = el.child.filter(function (value) {
                     return value.name.substr(0, 3).toUpperCase() == childFolder.substr(0, 3)
@@ -40,15 +40,15 @@ async function idk(untagged) {
             }
         })
 
-        if (feature.folderId == undefined) {
+        if (feature.folderId == undefined) { //Si la carpeta no existe
             console.log("no existe la carpeta")
         } else {
-            console.log(feature)
+            
         }
     })
 }
 
-idk(untagged)
+uploadResult()
 
 // untagged.forEach(feature => {
 
