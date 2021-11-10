@@ -201,7 +201,7 @@ async function createTestExecution(testdata, key, jwt) {
                     "actualResult": testdata.status + ' ' + testdata.name
                 }
             ],
-            "environmentName": "INT",
+            "environmentName": testdata.env,
             "actualEndDate": new Date(),
             "executionTime": testdata.duration,
             "executedById": testdata.userId,

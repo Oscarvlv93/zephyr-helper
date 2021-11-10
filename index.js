@@ -48,7 +48,7 @@ async function idk(untagged) { //aca dentro va el proceso completo de tagear el 
     })
 }
 
-uploadResult()
+uploadResult('QA').then(s => {console.log(s)})
 
 // untagged.forEach(feature => {
 
@@ -71,7 +71,7 @@ async function orderingData() {
 
 
 
-async function uploadResult(req) {
+async function uploadResult(env, req) {
     let args = {}
 
     if (!req) {
@@ -91,6 +91,7 @@ async function uploadResult(req) {
         feature.map(function (testcase, index, array) {
             testcase['testCycleKey'] = args.testCycleKey;
             testcase['userId'] = args.userId;
+            testcase['env'] = env;
             return executions.push(methods.createTestExecution(testcase, args.projectDataKey, args.api_key).then(res => {
                 return res;
             }))
