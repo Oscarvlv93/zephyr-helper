@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.zephyrscale.smartbear.com/v2/';
+const BASE_URL = '';
 
 const { doRequest } = require("./request-handler");
 
