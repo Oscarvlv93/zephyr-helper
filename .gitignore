@@ -1,7 +1,8 @@
 node_modules
 *.iml
 package-lock.json
-
+dist/
+.npmrc
 ### Linux ###
 *~
 
